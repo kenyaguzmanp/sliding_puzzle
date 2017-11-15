@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Sliding Puzzle</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">-->
+        <!-- Style Sheet -->
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h1>Media Monks</h1>
+
+            <div class="row">
+<!--                <div class="black piece0 pos-1-1"></div>-->
+                <div class="puzzle piece1 pos-1-1"></div>
+                <div class="puzzle piece2 pos-1-2"></div>
+                <div class="puzzle piece3 pos-1-3"></div>
+            </div>
+            <div class="row">
+                <div class="black piece0 pos-2-1"></div>
+<!--               <div class="puzzle piece4 pos-2-1"></div>-->
+               <div class="puzzle piece5 pos-2-2"></div>
+               <div class="puzzle piece6 pos-2-3"></div> 
+            </div>
+            <div class="row">              
+               <div class="puzzle piece7 pos-3-1"></div>
+                <div class="puzzle piece8 pos-3-2"></div>
+                <div class="puzzle piece9 pos-3-3"></div> 
+<!--                <div class="black piece0 pos-3-3"></div> -->
+            </div>
+<!--            <img src="monks.jpg" alt="fullImage">-->
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $( document ).ready(function() {
+                console.log( "ready!" );
+                var piece0 = $(".piece0");
+                var piece0Positions = piece0.offset();
+                var piece0ClassPos = piece0[0].classList[2];
+                var piece0VectorPos = piece0ClassPos.slice(4).split('');
+                var availableCells=[];
+                console.log("posicion de piece0 en clase: "+ piece0VectorPos);
+                console.log("piece 0 ", piece0Positions);
+                availableCellsToMove(piece0VectorPos);
+                console.log("available cells: " + availableCells);
+                
+                $(".puzzle").on("click", function(){
+                    console.log("click en puzzle");
+                    
+                });
+                
+                function addClassAvailable(cells){
+                    
+                }
+                
+                
+                
+                function availableCellsToMove(piece0VectorPos){
+                 
+                       var posRow = parseInt(piece0VectorPos[0]);
+                       var posCol = parseInt(piece0VectorPos[2]);
+                       var up = posRow -1;
+                       var down = posRow +1;
+                       var right = posCol +1;
+                       var left = posCol -1;
+                       
+                       
+                       if(up>0){
+                            console.log("puede mover la celda de arriba ");
+                            availableCells.push("pos-" + up+"-" +posCol);
+                        }
+                        if(down<4){
+                            console.log("puede mover la celda de abajo ");
+                            availableCells.push("pos-" +down+"-" +posCol);
+                        }
+                        if(right<4){
+                            console.log("puede mover la celda de la derecha");
+                            availableCells.push("pos-" +posRow+"-" +right);
+                        }
+                        if(left >0){
+                            console.log("puede mover la celda de la izquierda");
+                            availableCells.push("pos-" +posRow+"-" +left);
+                        }    
+                    
+                }
+                
+            });
+        </script>
+    </body>
+</html>
