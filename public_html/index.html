@@ -23,16 +23,16 @@
                 <div class="puzzle piece3 pos-1-3"></div>
             </div>
             <div class="row">
-                <div class="black piece0 pos-2-1"></div>
-<!--               <div class="puzzle piece4 pos-2-1"></div>-->
+<!--                <div class="black piece0 pos-2-1"></div>-->
+               <div class="puzzle piece4 pos-2-1"></div>
                <div class="puzzle piece5 pos-2-2"></div>
                <div class="puzzle piece6 pos-2-3"></div> 
             </div>
             <div class="row">              
                <div class="puzzle piece7 pos-3-1"></div>
                 <div class="puzzle piece8 pos-3-2"></div>
-                <div class="puzzle piece9 pos-3-3"></div> 
-<!--                <div class="black piece0 pos-3-3"></div> -->
+<!--                <div class="puzzle piece9 pos-3-3"></div> -->
+                <div class="black piece0 pos-3-3"></div> 
             </div>
 <!--            <img src="monks.jpg" alt="fullImage">-->
         </div>
@@ -51,14 +51,61 @@
                 console.log("piece 0 ", piece0Positions);
                 availableCellsToMove(piece0VectorPos);
                 console.log("available cells: " + availableCells);
+                console.log("celda disponible para añadir clase: ", $("."+availableCells[0]));
+                //$("."+availableCells[0]).addClass("availableCell");
+                randomizeCells(availableCells);
                 
                 $(".puzzle").on("click", function(){
                     console.log("click en puzzle");
                     
                 });
                 
+                
+                function randomizeCells(cells){
+                    console.log("generar numeros aleatorios");
+                    var randCells =[];
+                    var reorderCells = [0,1,2,3,4,5,6,7,8];
+                    var matrixOrder = ['pos-1-1', 'pos-1-2','pos-1-3','pos-2-1', 'pos-2-2','pos-2-3','pos-3-1', 'pos-3-2','pos-3-3'];
+                    var newMatrixOrder=[];
+                    var ranNums = shuffle(reorderCells);
+                    console.log("orderd ceelss: " + reorderCells);
+                    for(var i=0; i<reorderCells.length; i++){
+                        //randCells.push("init pos " + matrixOrder[i] + " in position: " + ranNums[i] );
+                        newMatrixOrder[i]=matrixOrder[reorderCells[i]];
+                    }
+                    for(var j=1; j<= 8; j++){
+                        var lastClass =  $(".piece"+j)[0].classList[2];
+                        //$(".piece"+j).removeClass(lastClass);
+                        //$(".piece"+j).addClass(newMatrixOrder[j]);
+                    }
+                    console.log("randCells: " + newMatrixOrder);
+                }
+                
+                
+                function shuffle(array) {
+                    var i = array.length;
+                    var j = 0;
+                    var temp;
+
+                    while (i--) {
+
+                        j = Math.floor(Math.random() * (i+1));
+
+                        // swap randomly chosen element with current element
+                        temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+
+                    }
+
+                    return array;
+                }
+                
+                               
                 function addClassAvailable(cells){
-                    
+                    for(var i=0; i<cells.length; i++){
+                       $("."+cells[i]).addClass("availableCell"); 
+                    }
                 }
                 
                 
@@ -88,7 +135,9 @@
                         if(left >0){
                             console.log("puede mover la celda de la izquierda");
                             availableCells.push("pos-" +posRow+"-" +left);
-                        }    
+                        }
+                        
+                        addClassAvailable(availableCells);
                     
                 }
                 

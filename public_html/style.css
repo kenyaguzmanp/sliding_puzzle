@@ -7,9 +7,6 @@
    display: inline-block;
 }
 
-.availableCell{
-    border-color: blue;
-}
 
 .piece0{
     background-image: none;
@@ -107,3 +104,6 @@
     left: 332px;
 }
 
+.availableCell{
+    border-color: blue;
+}
