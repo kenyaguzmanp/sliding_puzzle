@@ -15,47 +15,45 @@
     <body>
         <div class="container-fluid">
             <h1>Media Monks</h1>
-
-            <div class="row">
-<!--                <div class="black piece0 pos-1-1"></div>-->
-                <div class="puzzle piece0 pos-1-1"></div>
-                <div class="puzzle piece1 pos-1-2"></div>
-                <div class="puzzle piece2 pos-1-3"></div>
-            </div>
-            <div class="row">
-<!--                <div class="black piece0 pos-2-1"></div>-->
-               <div class="puzzle piece3 pos-2-1"></div>
-               <div class="puzzle piece4 pos-2-2"></div>
-               <div class="puzzle piece5 pos-2-3"></div> 
-            </div>
-            <div class="row">              
-               <div class="puzzle piece6 pos-3-1"></div>
-                <div class="puzzle piece7 pos-3-2"></div>
-                <div class="puzzle piece8 pos-3-3"></div> 
-                <div class="black pieceBlack pos-3-3"></div> 
-            </div>
             
-            <img src="monks.jpg" alt="fullImage" style="float: right">
+            <div id="allGameWrapp">
+                <div class="row">
+    <!--                <div class="black piece0 pos-1-1"></div>-->
+                    <div class="puzzle piece0 pos-1-1"></div>
+                    <div class="puzzle piece1 pos-1-2"></div>
+                    <div class="puzzle piece2 pos-1-3"></div>
+                </div>
+                <div class="row">
+    <!--                <div class="black piece0 pos-2-1"></div>-->
+                   <div class="puzzle piece3 pos-2-1"></div>
+                   <div class="puzzle piece4 pos-2-2"></div>
+                   <div class="puzzle piece5 pos-2-3"></div> 
+                </div>
+                <div class="row">              
+                   <div class="puzzle piece6 pos-3-1"></div>
+                    <div class="puzzle piece7 pos-3-2"></div>
+                    <div class="puzzle piece8 pos-3-3"></div> 
+                    <div class="black pieceBlack pos-3-3"></div> 
+                </div>
+            </div>
+<!--            <img src="monks.jpg" alt="fullImage" style="float: right">-->
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script>
             $( document ).ready(function() {
-                console.log( "ready!" );
-                /*
-                var piece0 = $(".piece0");
-                var piece0Positions = piece0.offset();
-                var piece0ClassPos = piece0[0].classList[2];
-                var piece0VectorPos = piece0ClassPos.slice(4).split('');
+                console.log( "ready!" );    
+                var pieceBlack = $(".pieceBlack");
+                var pieceBlackPositions = pieceBlack.offset();
+                var pieceBlackClassPos = pieceBlack[0].classList[2];
+                var pieceBlackVectorPos = pieceBlackClassPos.slice(4).split('');
                 var availableCells=[];
-                console.log("posicion de piece0 en clase: "+ piece0VectorPos);
-                console.log("piece 0 ", piece0Positions);
-                availableCellsToMove(piece0VectorPos);
-                console.log("available cells: " + availableCells);
-                console.log("celda disponible para añadir clase: ", $("."+availableCells[0]));
-        */
-                randomizeCells(); 
+                console.log("posicion de piece black position: "+ pieceBlackVectorPos);
+                console.log("piece 0 ", pieceBlackPositions);             
+        
+                randomizeCells();
+                availableCellsToMove(pieceBlackVectorPos);
                 
                 $(".puzzle").on("click", function(){
                     console.log("click en puzzle");
@@ -70,7 +68,6 @@
                     var matrixOrder = ['pos-1-1', 'pos-1-2','pos-1-3','pos-2-1', 'pos-2-2','pos-2-3','pos-3-1', 'pos-3-2'];
                     var newMatrixOrder=[];
                     var ranNums = shuffle(reorderCells);
-                    //reorderCells[8] = 0;
                     console.log("reorder cells: " + reorderCells);
                     for(var i=0; i< reorderCells.length; i++){
                         newMatrixOrder[i]=matrixOrder[reorderCells[i]];
@@ -109,8 +106,9 @@
                     return array;
                 }
                 
-                /*             
+                            
                 function addClassAvailable(cells){
+                    console.log("cells en addclassAvailable: " + cells);
                     for(var i=0; i<cells.length; i++){
                        $("."+cells[i]).addClass("availableCell"); 
                     }
@@ -118,16 +116,13 @@
                 
                 
                 
-                function availableCellsToMove(piece0VectorPos){
-                 
-                       var posRow = parseInt(piece0VectorPos[0]);
-                       var posCol = parseInt(piece0VectorPos[2]);
+                function availableCellsToMove(pieceBlackVectorPos){                
+                       var posRow = parseInt(pieceBlackVectorPos[0]);
+                       var posCol = parseInt(pieceBlackVectorPos[2]);
                        var up = posRow -1;
                        var down = posRow +1;
                        var right = posCol +1;
-                       var left = posCol -1;
-                       
-                       
+                       var left = posCol -1;                                          
                        if(up>0){
                             console.log("puede mover la celda de arriba ");
                             availableCells.push("pos-" + up+"-" +posCol);
@@ -144,10 +139,9 @@
                             console.log("puede mover la celda de la izquierda");
                             availableCells.push("pos-" +posRow+"-" +left);
                         }
-                        
-                        addClassAvailable(availableCells);
-                    
-                }*/
+                        console.log("available cells: "+ availableCells);
+                        addClassAvailable(availableCells);                   
+                }
                 
             });
         </script>

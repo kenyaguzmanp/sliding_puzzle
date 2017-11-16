@@ -7,6 +7,11 @@
    display: inline-block;
 }
 
+#allGameWrapp{
+    background-image:url(monks.jpg);
+    background-color: red;
+}
+
 
 .pieceBlack{
     background-image: none;
