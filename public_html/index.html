@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-<!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">-->
+        <!--        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">-->
         <!-- Style Sheet -->
         <link rel="stylesheet" href="style.css">
 
@@ -15,78 +15,125 @@
     <body>
         <div class="container-fluid">
             <h1>Media Monks</h1>
-            
+
             <div id="allGameWrapp">
                 <div class="row">
-    <!--                <div class="black piece0 pos-1-1"></div>-->
+                    <!--                <div class="black piece0 pos-1-1"></div>-->
                     <div class="puzzle piece0 pos-1-1"></div>
                     <div class="puzzle piece1 pos-1-2"></div>
                     <div class="puzzle piece2 pos-1-3"></div>
                 </div>
                 <div class="row">
-    <!--                <div class="black piece0 pos-2-1"></div>-->
-                   <div class="puzzle piece3 pos-2-1"></div>
-                   <div class="puzzle piece4 pos-2-2"></div>
-                   <div class="puzzle piece5 pos-2-3"></div> 
+                    <!--                <div class="black piece0 pos-2-1"></div>-->
+                    <div class="puzzle piece3 pos-2-1"></div>
+                    <div class="puzzle piece4 pos-2-2"></div>
+                    <div class="puzzle piece5 pos-2-3"></div> 
                 </div>
                 <div class="row">              
-                   <div class="puzzle piece6 pos-3-1"></div>
+                    <div class="puzzle piece6 pos-3-1"></div>
                     <div class="puzzle piece7 pos-3-2"></div>
                     <div class="puzzle piece8 pos-3-3"></div> 
                     <div class="black pieceBlack pos-3-3"></div> 
                 </div>
             </div>
-<!--            <img src="monks.jpg" alt="fullImage" style="float: right">-->
+            <!--            <img src="monks.jpg" alt="fullImage" style="float: right">-->
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script>
-            $( document ).ready(function() {
-                console.log( "ready!" );    
+            $(document).ready(function () {
+                console.log("ready!");
                 var pieceBlack = $(".pieceBlack");
                 var pieceBlackPositions = pieceBlack.offset();
                 var pieceBlackClassPos = pieceBlack[0].classList[2];
                 var pieceBlackVectorPos = pieceBlackClassPos.slice(4).split('');
-                var availableCells=[];
-                console.log("posicion de piece black position: "+ pieceBlackVectorPos);
-                console.log("piece 0 ", pieceBlackPositions);             
-        
+                var availableCells = [];
+                var availableMoves = [];
+                var availableCellsGeneral = [];
+                var availableCellGeneral = {
+                    "cell": '',
+                    "moves": ''
+                };
+                console.log("posicion de piece black position: " + pieceBlackVectorPos);
+                console.log("piece 0 ", pieceBlackPositions);
+
                 randomizeCells();
-                availableCellsToMove(pieceBlackVectorPos);
-                
-                $(".puzzle").on("click", function(){
-                    console.log("click en puzzle");
-                    
+                availableCells = availableCellsToMove(pieceBlackVectorPos);
+                console.log("availableCells: " + availableCells);
+                addClassAvailable(availableCells);
+                availableMovements(availableCells[0]);
+
+                $(".puzzle").on("click", function () {
+                    var cellSeleted = $(this);
+                    //console.log("click en puzzle: " , cellSeleted);
+                    if (cellSeleted.hasClass("availableCell")) {
+                        console.log("esta disponible para mover");
+                    } else {
+                        console.log("no esta disponible para mover");
+                    }
                 });
-                
-                
-                function randomizeCells(){
-                    console.log("generar numeros aleatorios");
-                    var randCells =[];
-                    var reorderCells = [0,1,2,3,4,5,6,7];
-                    var matrixOrder = ['pos-1-1', 'pos-1-2','pos-1-3','pos-2-1', 'pos-2-2','pos-2-3','pos-3-1', 'pos-3-2'];
-                    var newMatrixOrder=[];
+
+                function availableMovements(cell){
+                    var cellPosition = cell.slice(4).split('');
+                    console.log("available cell position: " + cellPosition);
+                    console.log("el back cell: " + pieceBlackVectorPos);
+                    var posRow = parseInt(pieceBlackVectorPos[0]);
+                    var posCol = parseInt(pieceBlackVectorPos[2]);
+                    
+                    var posRowCell = parseInt(cellPosition[0]);
+                    var posColCell = parseInt(cellPosition[2]);
+                    
+                    availableCellGeneral.cell = cell;              
+                    
+                    if(posRow - posRowCell > 0){
+                        console.log("puede mover la celda hacia abajo");
+                        availableCellGeneral.moves = 'down';
+                    }
+                    if(posRowCell - posRow > 0){
+                        console.log("puede mover celda hacia arriba");
+                        availableCellGeneral.moves = 'up';
+                    }
+                    if(posCol - posColCell >0){
+                        console.log("puede mover la celda hacia la derecha");
+                        availableCellGeneral.moves = 'right';
+                    }
+                    if(posColCell - posCol >0){
+                        console.log("puede mover celda hacia la izquierda");
+                        availableCellGeneral.moves = 'left';
+                    }
+                    
+                    //availableCellsGeneral.push(availableCellsGeneral);
+                    console.log("Available cell in general: ", availableCellGeneral);
+                }
+
+
+                function randomizeCells() {
+                    //console.log("generar numeros aleatorios");
+                    var randCells = [];
+                    var reorderCells = [0, 1, 2, 3, 4, 5, 6, 7];
+                    var matrixOrder = ['pos-1-1', 'pos-1-2', 'pos-1-3', 'pos-2-1', 'pos-2-2', 'pos-2-3', 'pos-3-1', 'pos-3-2'];
+                    var newMatrixOrder = [];
                     var ranNums = shuffle(reorderCells);
-                    console.log("reorder cells: " + reorderCells);
-                    for(var i=0; i< reorderCells.length; i++){
-                        newMatrixOrder[i]=matrixOrder[reorderCells[i]];
+                    //console.log("reorder cells: " + reorderCells);
+                    for (var i = 0; i < reorderCells.length; i++) {
+                        newMatrixOrder[i] = matrixOrder[reorderCells[i]];
                     }
                     reorderCells.push(8);
                     newMatrixOrder.push('pos-3-3');
-                    console.log("matrixOrder: " + matrixOrder);
-                    console.log("reorderIndex: " + reorderCells);
-                    console.log("randCells: " + newMatrixOrder);
-                    
-                    for(var j=0; j< newMatrixOrder.length; j++){
-                        var lastClass =  $(".piece"+j)[0].classList[2];
-                        $(".piece"+j).removeClass(lastClass);
-                        $(".piece"+j).addClass(newMatrixOrder[j]);
+                    //console.log("matrixOrder: " + matrixOrder);
+                    //console.log("reorderIndex: " + reorderCells);
+                    //console.log("randCells: " + newMatrixOrder);
+
+                    for (var j = 0; j < newMatrixOrder.length; j++) {
+                        var lastClass = $(".piece" + j)[0].classList[2];
+                        $(".piece" + j).removeClass(lastClass);
+                        $(".piece" + j).addClass(newMatrixOrder[j]);
                     }
-                    
+
                 }
-                
-                
+
+
                 function shuffle(array) {
                     var i = array.length;
                     var j = 0;
@@ -94,7 +141,7 @@
 
                     while (i--) {
 
-                        j = Math.floor(Math.random() * (i+1));
+                        j = Math.floor(Math.random() * (i + 1));
 
                         // swap randomly chosen element with current element
                         temp = array[i];
@@ -105,44 +152,51 @@
 
                     return array;
                 }
-                
-                            
-                function addClassAvailable(cells){
-                    console.log("cells en addclassAvailable: " + cells);
-                    for(var i=0; i<cells.length; i++){
-                       $("."+cells[i]).addClass("availableCell"); 
+
+
+                function addClassAvailable(cells) {
+                    console.log("en addClassAvailable");
+                    console.log("las celdas en addClassAvailable: " + cells);
+                    for (var i = 0; i < cells.length; i++) {
+                        $("." + cells[i]).addClass("availableCell");
                     }
                 }
-                
-                
-                
-                function availableCellsToMove(pieceBlackVectorPos){                
-                       var posRow = parseInt(pieceBlackVectorPos[0]);
-                       var posCol = parseInt(pieceBlackVectorPos[2]);
-                       var up = posRow -1;
-                       var down = posRow +1;
-                       var right = posCol +1;
-                       var left = posCol -1;                                          
-                       if(up>0){
-                            console.log("puede mover la celda de arriba ");
-                            availableCells.push("pos-" + up+"-" +posCol);
-                        }
-                        if(down<4){
-                            console.log("puede mover la celda de abajo ");
-                            availableCells.push("pos-" +down+"-" +posCol);
-                        }
-                        if(right<4){
-                            console.log("puede mover la celda de la derecha");
-                            availableCells.push("pos-" +posRow+"-" +right);
-                        }
-                        if(left >0){
-                            console.log("puede mover la celda de la izquierda");
-                            availableCells.push("pos-" +posRow+"-" +left);
-                        }
-                        console.log("available cells: "+ availableCells);
-                        addClassAvailable(availableCells);                   
+
+
+
+                function availableCellsToMove(pieceBlackVectorPos) {
+                    var posRow = parseInt(pieceBlackVectorPos[0]);
+                    var posCol = parseInt(pieceBlackVectorPos[2]);
+                    var up = posRow - 1;
+                    var down = posRow + 1;
+                    var right = posCol + 1;
+                    var left = posCol - 1;
+                    var available = [];
+                    if (up > 0) {
+                        console.log("puede mover la celda de arriba ");
+                        available.push("pos-" + up + "-" + posCol);
+                        console.log("la celda de arriba se puede mover hacia abajo");
+                    }
+                    if (down < 4) {
+                        console.log("puede mover la celda de abajo ");
+                        available.push("pos-" + down + "-" + posCol);
+                        console.log("la celda de abajo se puede mover hacia arriba");
+                    }
+                    if (right < 4) {
+                        console.log("puede mover la celda de la derecha");
+                        available.push("pos-" + posRow + "-" + right);
+                        console.log("la celda de la derecha se puede mover hacia la izquierda");
+                    }
+                    if (left > 0) {
+                        console.log("puede mover la celda de la izquierda");
+                        available.push("pos-" + posRow + "-" + left);
+                        console.log("la celda de la izquierda se puede mover hacia la derecha");
+                    }
+                    console.log("available cells in fucntion: " + available);
+                    //addClassAvailable(availableCells);
+                    return available;
                 }
-                
+
             });
         </script>
     </body>
