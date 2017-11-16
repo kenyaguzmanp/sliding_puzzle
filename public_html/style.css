@@ -8,45 +8,45 @@
 }
 
 
-.piece0{
+.pieceBlack{
     background-image: none;
-    background-color: black;
+    background-color: green;
     background-position:-332px -332px
 }
 
-.piece1 {
+.piece0 {
    background-position:0 0
 }
 
-.piece2 {
+.piece1 {
    background-position:-166px 0px
 }
 
-.piece3 {
+.piece2 {
    background-position:-332px 0px
 }
 
-.piece4 {
+.piece3 {
    background-position:0px -166px
 }
 
-.piece5 {
+.piece4 {
    background-position:-166px -166px
 }
 
-.piece6 {
+.piece5 {
    background-position:-332px -166px
 }
 
-.piece7{
+.piece6{
    background-position:0px -332px
 }
 
-.piece8{
+.piece7{
    background-position:-166px -332px
 }
 
-.piece9{
+.piece8{
    background-position:-332px -332px
 }
 
