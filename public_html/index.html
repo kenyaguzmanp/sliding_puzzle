@@ -55,12 +55,15 @@
                     "cell": '',
                     "moves": ''
                 };
-                console.log("posicion de piece black position: " + pieceBlackVectorPos);
-                console.log("piece 0 ", pieceBlackPositions);
+                //console.log("posicion de piece black position: " + pieceBlackVectorPos);
+                //console.log("piece 0 ", pieceBlackPositions);
+                
+               
 
                 randomizeCells();
                 availableCells = availableCellsToMove(pieceBlackVectorPos);
-                console.log("availableCells: " + availableCells);
+
+                //console.log("availableCells: " + availableCells);
                 addClassAvailable(availableCells);
                 constructAvailableCellObject(availableCells);
                 
@@ -70,16 +73,51 @@
                     var cellSeleted = $(this);
                     console.log("click en puzzle: " , cellSeleted);
                     if (cellSeleted.hasClass("availableCell")) {
-                        console.log("esta disponible para mover");
+                        console.log("esta disponible para mover");                       
                         addMovementClass(availableCellsGeneral);
-                        
+                        var cellSelectedClassPiece = cellSeleted[0].classList[1];
+                        var classPosToRemove = cellSeleted[0].classList[2];
+                        //console.log("cell selected: "+ cellSelectedClassPiece);
+                        moveCellToBlack(cellSelectedClassPiece, classPosToRemove);
+                        //for(var i=0; i<)
+                        otherTurn();
                     } else {
                         console.log("no esta disponible para mover");
                     }
+                                     
                 });
                 
+                function otherTurn(){
+                    console.log("OTHER TURN");
+                    pieceBlackClassPos = $(".pieceBlack")[0].classList[2];
+                    pieceBlackVectorPos = pieceBlackClassPos.slice(4).split('');
+                    availableCells = [];
+                    availableCellsGeneral = [];
+                    availableCellGeneral = {
+                        "cell": '',
+                     "moves": ''
+                     };
+                     for(var i=0; i<8; i++){
+                         $(".piece" + i).removeClass("availableCell");
+                     }
+                    availableCells = availableCellsToMove(pieceBlackVectorPos);
+                    //console.log("availableCells: " + availableCells);
+                    addClassAvailable(availableCells);
+                    constructAvailableCellObject(availableCells);  
+                }
+                
+                function moveCellToBlack(piece, remove){
+                    //console.log("pos: " + piece + " remove: " + remove);
+                    var pieceBlackPos = $(".pieceBlack")[0].classList[2];
+                    var piecePos = $("."+piece)[0].classList[2];
+                    $(".pieceBlack").removeClass(pieceBlackPos).addClass(piecePos);                   
+                    $("."+piece).removeClass(piecePos).addClass(pieceBlackPos);
+                    //console.log( $(".pieceBlack")[0]);
+                   
+                }
+                
                 function addMovementClass(cells){
-                    console.log("añadiendo clases de mivimiento");
+                    //console.log("añadiendo clases de mivimiento");
                     //console.log("cells en addmOvements", cells);
                     for(var j=0; j< cells.length; j++){
                         //console.log("la celda que le debe añadir movimeinto: ", $("." + cells[j].cell) );
@@ -88,18 +126,18 @@
                 }
                 
                 function constructAvailableCellObject(cellsArray){
-                    console.log("en la funcion de construccion de objeto");
-                    console.log("available cells: " + cellsArray);
+                    //console.log("en la funcion de construccion de objeto");
+                    //console.log("available cells: " + cellsArray);
                     for(var i=0; i< cellsArray.length; i++){
                         availableMovements(cellsArray[i]);
                     }
-                    console.log("el objeto de celdas disponibles ahora es: ", availableCellsGeneral);
+                   // console.log("el objeto de celdas disponibles ahora es: ", availableCellsGeneral);
                 }
 
                 function availableMovements(cell){
                     var cellPosition = cell.slice(4).split('');
-                    console.log("available cell position: " + cellPosition);
-                    console.log("el back cell: " + pieceBlackVectorPos);
+                    //console.log("available cell position: " + cellPosition);
+                    //console.log("el back cell: " + pieceBlackVectorPos);
                     availableCellGeneral = {
                         "cell": '',
                         "moves": ''
@@ -113,24 +151,24 @@
                     availableCellGeneral.cell = cell;              
                     
                     if(posRow - posRowCell > 0){
-                        console.log("puede mover la celda hacia abajo");
+                        //console.log("puede mover la celda hacia abajo");
                         availableCellGeneral.moves = 'down';
                     }
                     if(posRowCell - posRow > 0){
-                        console.log("puede mover celda hacia arriba");
+                        //console.log("puede mover celda hacia arriba");
                         availableCellGeneral.moves = 'up';
                     }
                     if(posCol - posColCell >0){
-                        console.log("puede mover la celda hacia la derecha");
+                        //console.log("puede mover la celda hacia la derecha");
                         availableCellGeneral.moves = 'right';
                     }
                     if(posColCell - posCol >0){
-                        console.log("puede mover celda hacia la izquierda");
+                        //console.log("puede mover celda hacia la izquierda");
                         availableCellGeneral.moves = 'left';
                     }
                     
                     availableCellsGeneral.push(availableCellGeneral);
-                    console.log("Available cell in general: ", availableCellsGeneral);
+                   // console.log("Available cell in general: ", availableCellsGeneral);
                 }
 
 
@@ -181,8 +219,8 @@
 
 
                 function addClassAvailable(cells) {
-                    console.log("en addClassAvailable");
-                    console.log("las celdas en addClassAvailable: " + cells);
+                    //console.log("en addClassAvailable");
+                    //console.log("las celdas en addClassAvailable: " + cells);
                     for (var i = 0; i < cells.length; i++) {
                         $("." + cells[i]).addClass("availableCell");
                     }
@@ -199,26 +237,26 @@
                     var left = posCol - 1;
                     var available = [];
                     if (up > 0) {
-                        console.log("puede mover la celda de arriba ");
+                        //console.log("puede mover la celda de arriba ");
                         available.push("pos-" + up + "-" + posCol);
-                        console.log("la celda de arriba se puede mover hacia abajo");
+                        //console.log("la celda de arriba se puede mover hacia abajo");
                     }
                     if (down < 4) {
-                        console.log("puede mover la celda de abajo ");
+                       // console.log("puede mover la celda de abajo ");
                         available.push("pos-" + down + "-" + posCol);
-                        console.log("la celda de abajo se puede mover hacia arriba");
+                       // console.log("la celda de abajo se puede mover hacia arriba");
                     }
                     if (right < 4) {
-                        console.log("puede mover la celda de la derecha");
+                       // console.log("puede mover la celda de la derecha");
                         available.push("pos-" + posRow + "-" + right);
-                        console.log("la celda de la derecha se puede mover hacia la izquierda");
+                       // console.log("la celda de la derecha se puede mover hacia la izquierda");
                     }
                     if (left > 0) {
-                        console.log("puede mover la celda de la izquierda");
+                       // console.log("puede mover la celda de la izquierda");
                         available.push("pos-" + posRow + "-" + left);
-                        console.log("la celda de la izquierda se puede mover hacia la derecha");
+                       // console.log("la celda de la izquierda se puede mover hacia la derecha");
                     }
-                    console.log("available cells in fucntion: " + available);
+                    //console.log("available cells in fucntion: " + available);
                     //addClassAvailable(availableCells);
                     return available;
                 }

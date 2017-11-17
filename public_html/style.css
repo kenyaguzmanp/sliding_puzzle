@@ -52,6 +52,7 @@
 }
 
 .piece8{
+    display: none;
    background-position:-332px -332px
 }
 
