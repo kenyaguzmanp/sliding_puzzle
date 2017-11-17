@@ -112,3 +112,19 @@
 .availableCell{
     border-color: blue;
 }
+
+.moveDown{
+    background-color: yellow;
+}
+
+.moveUp{
+    background-color: purple;
+}
+
+.moveRight{
+    background-color: grey;
+}
+
+.moveLeft{
+    background-color: white;
+}

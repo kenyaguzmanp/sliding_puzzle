@@ -62,22 +62,48 @@
                 availableCells = availableCellsToMove(pieceBlackVectorPos);
                 console.log("availableCells: " + availableCells);
                 addClassAvailable(availableCells);
-                availableMovements(availableCells[0]);
+                constructAvailableCellObject(availableCells);
+                
+                //availableMovements(availableCells[0]);
 
                 $(".puzzle").on("click", function () {
                     var cellSeleted = $(this);
-                    //console.log("click en puzzle: " , cellSeleted);
+                    console.log("click en puzzle: " , cellSeleted);
                     if (cellSeleted.hasClass("availableCell")) {
                         console.log("esta disponible para mover");
+                        addMovementClass(availableCellsGeneral);
+                        
                     } else {
                         console.log("no esta disponible para mover");
                     }
                 });
+                
+                function addMovementClass(cells){
+                    console.log("añadiendo clases de mivimiento");
+                    //console.log("cells en addmOvements", cells);
+                    for(var j=0; j< cells.length; j++){
+                        //console.log("la celda que le debe añadir movimeinto: ", $("." + cells[j].cell) );
+                        $("." + cells[j].cell).addClass(cells[j].moves);
+                    }
+                }
+                
+                function constructAvailableCellObject(cellsArray){
+                    console.log("en la funcion de construccion de objeto");
+                    console.log("available cells: " + cellsArray);
+                    for(var i=0; i< cellsArray.length; i++){
+                        availableMovements(cellsArray[i]);
+                    }
+                    console.log("el objeto de celdas disponibles ahora es: ", availableCellsGeneral);
+                }
 
                 function availableMovements(cell){
                     var cellPosition = cell.slice(4).split('');
                     console.log("available cell position: " + cellPosition);
                     console.log("el back cell: " + pieceBlackVectorPos);
+                    availableCellGeneral = {
+                        "cell": '',
+                        "moves": ''
+                    };
                     var posRow = parseInt(pieceBlackVectorPos[0]);
                     var posCol = parseInt(pieceBlackVectorPos[2]);
                     
@@ -103,8 +129,8 @@
                         availableCellGeneral.moves = 'left';
                     }
                     
-                    //availableCellsGeneral.push(availableCellsGeneral);
-                    console.log("Available cell in general: ", availableCellGeneral);
+                    availableCellsGeneral.push(availableCellGeneral);
+                    console.log("Available cell in general: ", availableCellsGeneral);
                 }
 
 
