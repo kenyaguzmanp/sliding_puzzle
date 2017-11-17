@@ -68,12 +68,13 @@
                 constructAvailableCellObject(availableCells);
                 
                 //availableMovements(availableCells[0]);
+                
 
                 $(".puzzle").on("click", function () {
                     var cellSeleted = $(this);
-                    console.log("click en puzzle: " , cellSeleted);
+                    //console.log("click en puzzle: " , cellSeleted);
                     if (cellSeleted.hasClass("availableCell")) {
-                        console.log("esta disponible para mover");                       
+                        //console.log("esta disponible para mover");                       
                         addMovementClass(availableCellsGeneral);
                         var cellSelectedClassPiece = cellSeleted[0].classList[1];
                         var classPosToRemove = cellSeleted[0].classList[2];
@@ -81,11 +82,35 @@
                         moveCellToBlack(cellSelectedClassPiece, classPosToRemove);
                         //for(var i=0; i<)
                         otherTurn();
+                        gameOver();
                     } else {
                         console.log("no esta disponible para mover");
                     }
                                      
                 });
+                
+                function gameOver(){ 
+                    var piecei = [];
+                    var posPiecei = [];
+                    var winIndex=0;
+                    var order = ['pos-1-1', 'pos-1-2', 'pos-1-3', 'pos-2-1', 'pos-2-2', 'pos-2-3', 'pos-3-1', 'pos-3-2', 'pos-3-3'];
+                    for(var i=0; i<9; i++){
+                        piecei[i] = $(".piece" + i)[0].classList[1];
+                        posPiecei[i] = $(".piece" + i)[0].classList[2];                       
+                    }
+                    //console.log("oder " + order + "en las posiciones: " + posPiecei);
+                    for(var j=0; j<posPiecei.length; j++){
+                        if(posPiecei[j]===order[j]){
+                            //console.log("gano");
+                            winIndex++;
+                        }
+                    }
+                    //console.log("win index: " + winIndex);
+                    if(winIndex=== order.length){
+                        console.log("win!");
+                        $(".puzzle").addClass("won");
+                    }
+                }
                 
                 function otherTurn(){
                     console.log("OTHER TURN");
@@ -121,7 +146,7 @@
                     //console.log("cells en addmOvements", cells);
                     for(var j=0; j< cells.length; j++){
                         //console.log("la celda que le debe añadir movimeinto: ", $("." + cells[j].cell) );
-                        $("." + cells[j].cell).addClass(cells[j].moves);
+                        //$("." + cells[j].cell).addClass(cells[j].moves);
                     }
                 }
                 
@@ -178,8 +203,9 @@
                     var reorderCells = [0, 1, 2, 3, 4, 5, 6, 7];
                     var matrixOrder = ['pos-1-1', 'pos-1-2', 'pos-1-3', 'pos-2-1', 'pos-2-2', 'pos-2-3', 'pos-3-1', 'pos-3-2'];
                     var newMatrixOrder = [];
-                    var ranNums = shuffle(reorderCells);
-                    //console.log("reorder cells: " + reorderCells);
+                    //var ranNums = shuffle(reorderCells);
+                    var reorderCells = [0, 1, 2, 3, 4, 5, 6, 7];
+                    console.log("reorder cells: " + reorderCells);
                     for (var i = 0; i < reorderCells.length; i++) {
                         newMatrixOrder[i] = matrixOrder[reorderCells[i]];
                     }
