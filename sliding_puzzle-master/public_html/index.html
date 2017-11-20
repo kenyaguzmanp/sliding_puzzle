@@ -181,15 +181,50 @@
                     availableCells = availableCellsToMove(pieceBlackVectorPos);
                     //console.log("availableCells: " + availableCells);
                     addClassAvailable(availableCells);
-                    constructAvailableCellObject(availableCells);  
+                    constructAvailableCellObject(availableCells);
+                    console.log("available cells object ", availableCellsGeneral);
                 }
                 
                 function moveCellToBlack(piece, remove){
-                    //console.log("pos: " + piece + " remove: " + remove);
+                    console.log("in move cell to Black");
+                    console.log("available cells to move? ", availableCellsGeneral);
+                    var pieceBlackOffset = $(".pieceBlack").offset(); 
+                    var piecePosition = $("."+piece)[0].classList[2];
+                    var pieceOffset = $("."+piece).offset(); 
+                    console.log("piece: " , pieceOffset);
+                    for(var i=0; i<availableCells.length; i++){
+                        if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "right"){
+                            var r = pieceOffset.left + 51;
+                            var rB =pieceBlackOffset.left - 281;
+                            $("."+availableCellsGeneral[i].cell).animate({left: r +"px"});
+                            $(".pieceBlack").animate({left: rB +"px"});
+                        }
+                        if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "left"){
+                            var r = pieceOffset.left - 281;
+                            var rB =pieceBlackOffset.left + 51;
+                            $("."+availableCellsGeneral[i].cell).animate({left: r +"px"});
+                            $(".pieceBlack").animate({left: rB +"px"});
+                        }
+                        if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "down"){
+                            var t = pieceOffset.top - 36;
+                            var tB =pieceBlackOffset.top - 368;
+                            $("."+availableCellsGeneral[i].cell).animate({top: t +"px"});
+                            $(".pieceBlack").animate({top: tB +"px"});
+                        }
+                        if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "up"){
+                            var t = pieceOffset.top - 368;
+                            var tB =pieceBlackOffset.top - 36;
+                            $("."+availableCellsGeneral[i].cell).animate({top: t +"px"});
+                            $(".pieceBlack").animate({top: tB +"px"});
+                        }
+                    }
+                    
+                    
+                    
                     var pieceBlackPos = $(".pieceBlack")[0].classList[2];
                     var piecePos = $("."+piece)[0].classList[2];
                     $(".pieceBlack").removeClass(pieceBlackPos).addClass(piecePos);
-                    $("."+piece).removeClass(piecePos).addClass(pieceBlackPos);
+                    $("."+piece).removeClass(piecePos).addClass(pieceBlackPos); 
                     //$("."+piece).removeClass(piecePos).addClass(pieceBlackPos);
                     //console.log( $(".pieceBlack")[0]);
                    
