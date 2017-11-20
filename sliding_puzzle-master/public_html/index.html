@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Sliding Puzzle</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        <!-- Style Sheet -->
+        <link rel="stylesheet" href="style.css">
+
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h1 class="animated bounceInDown">Media Monks</h1>
+            <p id="wonMessage">You won!</p>
+            <button type="button" id="startGame" class="btn btn-primary">Start Game!</button>
+            <button type="button" id="resetGame" class="btn btn-primary">Reset</button>
+            <div id="game">        
+                <div id="allGameWrapp">
+                    <div class="row">
+                        <!--                <div class="black piece0 pos-1-1"></div>-->
+                        <div class="puzzle piece0 pos-1-1"></div>
+                        <div class="puzzle piece1 pos-1-2"></div>
+                        <div class="puzzle piece2 pos-1-3"></div>
+                    </div>
+                    <div class="row">
+                        <!--                <div class="black piece0 pos-2-1"></div>-->
+                        <div class="puzzle piece3 pos-2-1"></div>
+                        <div class="puzzle piece4 pos-2-2"></div>
+                        <div class="puzzle piece5 pos-2-3"></div> 
+                    </div>
+                    <div class="row">              
+                        <div class="puzzle piece6 pos-3-1"></div>
+                        <div class="puzzle piece7 pos-3-2"></div>
+                        <div class="puzzle piece8 pos-3-3"></div> 
+                        <div class="black pieceBlack pos-3-3"></div> 
+                    </div>
+                </div>
+            </div> 
+            <img src="monks.jpg" id="monk" alt="fullImage" style="float: right">
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                console.log("ready!");
+                var pieceBlack = $(".pieceBlack");
+                var pieceBlackPositions = pieceBlack.offset();
+                var pieceBlackClassPos = pieceBlack[0].classList[2];
+                var pieceBlackVectorPos = pieceBlackClassPos.slice(4).split('');
+                var availableCells = [];
+                var availableMoves = [];
+                var availableCellsGeneral = [];
+                var availableCellGeneral = {
+                    "cell": '',
+                    "moves": ''
+                };
+                var gameWinFlag= false;
+                //console.log("posicion de piece black position: " + pieceBlackVectorPos);
+                //console.log("piece 0 ", pieceBlackPositions);
+                
+                $("#resetGame").prop("disabled",true);
+                $("#wonMessage").css("display", "none");
+
+                $("#startGame").on("click", function(){
+                    console.log("starting game...");
+                    $(this).prop("disabled",true);
+                    $("#resetGame").prop("disabled",false);
+                    $("#wonMessage").css("display", "none");
+                    $("#game").removeClass("animated shake");
+                    gameWinFlag = false;
+                    $(".puzzle").css("border-style", "solid");
+                    $(".pieceBlack").css("background-image", "none"); 
+                    //resetGame();
+                    randomizeCells();
+                    otherTurn();
+                    initGame();
+                });
+                
+                $("#resetGame").on("click", function(){
+                    console.log("reseting game...");
+                    $(".puzzle").css("border-style", "solid");
+                    $(".pieceBlack").css("background-image", "none");
+                    $("#game").removeClass("animated shake");
+                    resetGame();
+                    randomizeCells();
+                    otherTurn();
+                    initGame();
+                });
+                             
+                function resetGame(){
+                    console.log("reseting game");
+                    gameWinFlag = false;
+                    $("#game").removeClass(".animated .shake");
+                    $(".pieceBlack").removeClass($(".pieceBlack")[0].classList[2]).addClass("pos-3-3");
+                    for(var i=0; i< 9; i++){
+                        $(".piece"+i).removeClass("won");
+                    }
+                }
+                
+                function initGame(){
+                    //randomizeCells();
+                    availableCells = availableCellsToMove(pieceBlackVectorPos);
+
+                    //console.log("availableCells: " + availableCells);
+                    addClassAvailable(availableCells);
+                    constructAvailableCellObject(availableCells);
+
+                    //availableMovements(availableCells[0]);
+                }
+                
+
+                $(".puzzle").on("click", function () {
+                    var cellSeleted = $(this);
+                    //console.log("click en puzzle: " , cellSeleted);
+                    if (cellSeleted.hasClass("availableCell") && !gameWinFlag) {
+                        //console.log("esta disponible para mover");                       
+                        addMovementClass(availableCellsGeneral);
+                        var cellSelectedClassPiece = cellSeleted[0].classList[1];
+                        var classPosToRemove = cellSeleted[0].classList[2];
+                        //console.log("cell selected: "+ cellSelectedClassPiece);
+                        moveCellToBlack(cellSelectedClassPiece, classPosToRemove);
+                        //for(var i=0; i<)
+                        otherTurn();
+                        gameOver();
+                    } else {
+                        console.log("no esta disponible para mover");
+                    }
+                                     
+                });
+                
+                function gameOver(){ 
+                    var piecei = [];
+                    var posPiecei = [];
+                    var winIndex=0;
+                    var order = ['pos-1-1', 'pos-1-2', 'pos-1-3', 'pos-2-1', 'pos-2-2', 'pos-2-3', 'pos-3-1', 'pos-3-2', 'pos-3-3'];
+                    for(var i=0; i<9; i++){
+                        piecei[i] = $(".piece" + i)[0].classList[1];
+                        posPiecei[i] = $(".piece" + i)[0].classList[2];                       
+                    }
+                    console.log("oder " + order + "en las posiciones: " + posPiecei);
+                    for(var j=0; j<posPiecei.length; j++){
+                        if(posPiecei[j]===order[j]){
+                            //console.log("gano");
+                            winIndex++;
+                        }
+                    }
+                    console.log("win index: " + winIndex);
+                    if(winIndex=== order.length){
+                        console.log("win!");
+                        $(".puzzle").addClass("won");
+                        $(".pieceBlack").css("background-image", "url(monks.jpg)");
+                        $("#resetGame").prop("disabled",true);
+                        $("#startGame").prop("disabled",false);
+                        
+                        gameWinFlag = true;
+                        $(".puzzle").css("border-style", "none");
+                        $("#wonMessage").css("display", "block");
+                        $("#game").addClass("animated shake");
+                        resetGame();
+                    }
+                }
+                
+                function otherTurn(){
+                    console.log("OTHER TURN");
+                    pieceBlackClassPos = $(".pieceBlack")[0].classList[2];
+                    pieceBlackVectorPos = pieceBlackClassPos.slice(4).split('');
+                    availableCells = [];
+                    availableCellsGeneral = [];
+                    availableCellGeneral = {
+                        "cell": '',
+                     "moves": ''
+                     };
+                     for(var i=0; i<9; i++){
+                         $(".piece" + i).removeClass("availableCell");
+                     }
+                    availableCells = availableCellsToMove(pieceBlackVectorPos);
+                    //console.log("availableCells: " + availableCells);
+                    addClassAvailable(availableCells);
+                    constructAvailableCellObject(availableCells);  
+                }
+                
+                function moveCellToBlack(piece, remove){
+                    //console.log("pos: " + piece + " remove: " + remove);
+                    var pieceBlackPos = $(".pieceBlack")[0].classList[2];
+                    var piecePos = $("."+piece)[0].classList[2];
+                    $(".pieceBlack").removeClass(pieceBlackPos).addClass(piecePos);
+                    $("."+piece).removeClass(piecePos).addClass(pieceBlackPos);
+                    //$("."+piece).removeClass(piecePos).addClass(pieceBlackPos);
+                    //console.log( $(".pieceBlack")[0]);
+                   
+                }
+                
+                function addMovementClass(cells){
+                    //console.log("añadiendo clases de mivimiento");
+                    //console.log("cells en addmOvements", cells);
+                    for(var j=0; j< cells.length; j++){
+                        //console.log("la celda que le debe añadir movimeinto: ", $("." + cells[j].cell) );
+                        //$("." + cells[j].cell).addClass(cells[j].moves);
+                    }
+                }
+                
+                function constructAvailableCellObject(cellsArray){
+                    //console.log("en la funcion de construccion de objeto");
+                    //console.log("available cells: " + cellsArray);
+                    for(var i=0; i< cellsArray.length; i++){
+                        availableMovements(cellsArray[i]);
+                    }
+                   // console.log("el objeto de celdas disponibles ahora es: ", availableCellsGeneral);
+                }
+
+                function availableMovements(cell){
+                    var cellPosition = cell.slice(4).split('');
+                    //console.log("available cell position: " + cellPosition);
+                    //console.log("el back cell: " + pieceBlackVectorPos);
+                    availableCellGeneral = {
+                        "cell": '',
+                        "moves": ''
+                    };
+                    var posRow = parseInt(pieceBlackVectorPos[0]);
+                    var posCol = parseInt(pieceBlackVectorPos[2]);
+                    
+                    var posRowCell = parseInt(cellPosition[0]);
+                    var posColCell = parseInt(cellPosition[2]);
+                    
+                    availableCellGeneral.cell = cell;              
+                    
+                    if(posRow - posRowCell > 0){
+                        //console.log("puede mover la celda hacia abajo");
+                        availableCellGeneral.moves = 'down';
+                    }
+                    if(posRowCell - posRow > 0){
+                        //console.log("puede mover celda hacia arriba");
+                        availableCellGeneral.moves = 'up';
+                    }
+                    if(posCol - posColCell >0){
+                        //console.log("puede mover la celda hacia la derecha");
+                        availableCellGeneral.moves = 'right';
+                    }
+                    if(posColCell - posCol >0){
+                        //console.log("puede mover celda hacia la izquierda");
+                        availableCellGeneral.moves = 'left';
+                    }
+                    
+                    availableCellsGeneral.push(availableCellGeneral);
+                   // console.log("Available cell in general: ", availableCellsGeneral);
+                }
+
+
+                function randomizeCells() {
+                    //console.log("generar numeros aleatorios");
+                    var randCells = [];
+                    var reorderCells = [0, 1, 2, 3, 4, 5, 6, 7];
+                    var matrixOrder = ['pos-1-1', 'pos-1-2', 'pos-1-3', 'pos-2-1', 'pos-2-2', 'pos-2-3', 'pos-3-1', 'pos-3-2'];
+                    var newMatrixOrder = [];
+                    //var ranNums = shuffle(reorderCells);
+                    var reorderCells = [0, 1, 2, 3, 4, 5, 6, 7];
+                    console.log("reorder cells: " + reorderCells);
+                    for (var i = 0; i < reorderCells.length; i++) {
+                        newMatrixOrder[i] = matrixOrder[reorderCells[i]];
+                    }
+                    reorderCells.push(8);
+                    newMatrixOrder.push('pos-3-3');
+                    //console.log("matrixOrder: " + matrixOrder);
+                    //console.log("reorderIndex: " + reorderCells);
+                    //console.log("randCells: " + newMatrixOrder);
+
+                    for (var j = 0; j < newMatrixOrder.length; j++) {
+                        var lastClass = $(".piece" + j)[0].classList[2];
+                        $(".piece" + j).removeClass(lastClass);
+                        $(".piece" + j).addClass(newMatrixOrder[j]);
+                    }
+
+                }
+
+
+                function shuffle(array) {
+                    var i = array.length;
+                    var j = 0;
+                    var temp;
+
+                    while (i--) {
+
+                        j = Math.floor(Math.random() * (i + 1));
+
+                        // swap randomly chosen element with current element
+                        temp = array[i];
+                        array[i] = array[j];
+                        array[j] = temp;
+
+                    }
+
+                    return array;
+                }
+
+
+                function addClassAvailable(cells) {
+                    //console.log("en addClassAvailable");
+                    //console.log("las celdas en addClassAvailable: " + cells);
+                    for (var i = 0; i < cells.length; i++) {
+                        $("." + cells[i]).addClass("availableCell");
+                    }
+                }
+
+
+
+                function availableCellsToMove(pieceBlackVectorPos) {
+                    var posRow = parseInt(pieceBlackVectorPos[0]);
+                    var posCol = parseInt(pieceBlackVectorPos[2]);
+                    var up = posRow - 1;
+                    var down = posRow + 1;
+                    var right = posCol + 1;
+                    var left = posCol - 1;
+                    var available = [];
+                    if (up > 0) {
+                        //console.log("puede mover la celda de arriba ");
+                        available.push("pos-" + up + "-" + posCol);
+                        //console.log("la celda de arriba se puede mover hacia abajo");
+                    }
+                    if (down < 4) {
+                       // console.log("puede mover la celda de abajo ");
+                        available.push("pos-" + down + "-" + posCol);
+                       // console.log("la celda de abajo se puede mover hacia arriba");
+                    }
+                    if (right < 4) {
+                       // console.log("puede mover la celda de la derecha");
+                        available.push("pos-" + posRow + "-" + right);
+                       // console.log("la celda de la derecha se puede mover hacia la izquierda");
+                    }
+                    if (left > 0) {
+                       // console.log("puede mover la celda de la izquierda");
+                        available.push("pos-" + posRow + "-" + left);
+                       // console.log("la celda de la izquierda se puede mover hacia la derecha");
+                    }
+                    //console.log("available cells in fucntion: " + available);
+                    //addClassAvailable(availableCells);
+                    return available;
+                }
+
+            });
+        </script>
+    </body>
+</html>

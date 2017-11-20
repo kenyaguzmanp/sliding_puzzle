@@ -1,0 +1,131 @@
+.puzzle, .black {
+   background-image:url(monks.jpg);
+   width:166px;
+   height:166px;
+   /*border-style: solid;*/
+   float: left;
+   display: inline-block;
+}
+
+#allGameWrapp{
+    background-image:url(monks.jpg);
+    background-color: red;
+    position: relative;
+}
+
+#game{
+    padding: 100px;
+    position: relative;
+}
+
+@keyframes mymove {
+    from {left: 0px;}
+    to {left: 332px;}
+}
+
+
+.pieceBlack{
+    background-image:url(monks.jpg);
+    background-color: green;
+    background-position:-332px -332px
+}
+
+.piece0 {
+   background-position:0 0
+}
+
+.piece1 {
+   background-position:-166px 0px
+}
+
+.piece2 {
+   background-position:-332px 0px
+}
+
+.piece3 {
+   background-position:0px -166px
+}
+
+.piece4 {
+   background-position:-166px -166px
+}
+
+.piece5 {
+   background-position:-332px -166px
+}
+
+.piece6{
+   background-position:0px -332px
+}
+
+.piece7{
+   background-position:-166px -332px
+}
+
+.piece8{
+    display: none;
+   background-position:-332px -332px
+}
+
+.pos-1-1{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.pos-1-2{
+    position: absolute;
+    top: 0px;
+    left: 166px;
+}
+
+.pos-1-3{
+    position: absolute;
+    top: 0px;
+    left: 332px;
+}
+
+.pos-2-1{
+    position: absolute;
+    top: 166px;
+    left: 0px;
+}
+
+.pos-2-2{
+    position: absolute;
+    top: 166px;
+    left: 166px;
+}
+
+.pos-2-3{
+    position: absolute;
+    top: 166px;
+    left: 332px;
+}
+
+.pos-3-1{
+    position: absolute;
+    top: 332px;
+    left: 0px;
+}
+
+.pos-3-2{
+    position: absolute;
+    top: 332px;
+    left: 166px;
+}
+
+.pos-3-3{
+    position: absolute;
+    top: 332px;
+    left: 332px;
+}
+
+.availableCell{
+    border-color: blue;
+}
+
+
+.won{
+    border-color: red;
+}
