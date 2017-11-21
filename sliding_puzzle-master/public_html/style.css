@@ -39,8 +39,6 @@ footer a{
 }
 
 #allGameWrapp{
-/*    background-image:url(monks.jpg);
-    background-color: red;*/
     position: relative;
 }
 
@@ -49,15 +47,10 @@ footer a{
     position: relative;
 }
 
-@keyframes mymove {
-    from {left: 0px;}
-    to {left: 332px;}
-}
-
 
 .pieceBlack{
     background-image:url(monks.jpg);
-    background-color: green;
+    background-color: black;
     background-position:-332px -332px
 }
 
