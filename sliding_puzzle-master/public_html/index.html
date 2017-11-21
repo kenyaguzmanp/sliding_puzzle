@@ -18,7 +18,7 @@
             <p id="wonMessage">You won!</p>
             <button type="button" id="startGame" class="btn btn-primary">Start Game!</button>
             <button type="button" id="resetGame" class="btn btn-primary">Reset</button>
-            <div id="game">        
+            <div id="game" class="container center-block">        
                 <div id="allGameWrapp">
                     <div class="row">
                         <!--                <div class="black piece0 pos-1-1"></div>-->
@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div> 
-            <img src="monks.jpg" id="monk" alt="fullImage" style="float: right">
+<!--            <img src="monks.jpg" id="monk" alt="fullImage" style="float: right">-->
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -114,8 +114,8 @@
                     
                    for(var i=1; i<=3; i++){
                         for(var j=1; j<=3; j++){
-                            console.log($(".pos-" + i + "-" + j));                           
-                            console.log("top: " + vect[i] + "left: " + vect[j]);
+                            //console.log($(".pos-" + i + "-" + j));                           
+                            //console.log("top: " + vect[i] + "left: " + vect[j]);
                             $(".pos-" + i + "-" + j).css({      
                                 'top' : vect[i],
                                 'left' : vect[j]
@@ -255,41 +255,44 @@
                 function moveCellToBlack(piece, remove){
                     console.log("in move cell to Black");
                     console.log("available cells to move? ", availableCellsGeneral);
-                    var pieceBlackOffset = $(".pieceBlack").offset(); 
+                    var pieceBlackOffset = $(".pieceBlack").position(); 
                     var piecePosition = $("."+piece)[0].classList[2];
-                    var pieceOffset = $("."+piece).offset(); 
+                    var pieceOffset = $("."+piece).position(); 
                     console.log("piece: " , pieceOffset);
+                    console.log("window width and stuff: " + window.innerWidth);
                     for(var i=0; i<availableCells.length; i++){
                         if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "right"){
-                            var r = pieceOffset.left + 51;
-                            var rB =pieceBlackOffset.left - 281;
+                            var r = pieceOffset.left + 166;
+                            var rB =pieceBlackOffset.left - 166;
+                            console.log("pieceOffset.left es: " + pieceOffset.left +"r es: " + r);
                             $("."+availableCellsGeneral[i].cell).animate({left: r +"px"});
                             $(".pieceBlack").animate({left: rB +"px"});
                         }
                         if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "left"){
-                            var r = pieceOffset.left - 281;
-                            var rB =pieceBlackOffset.left + 51;
+                            var r = pieceOffset.left - 166;
+                            console.log("r es: " + r);
+                            var rB =pieceBlackOffset.left + 166;
                             $("."+availableCellsGeneral[i].cell).animate({left: r +"px"});
                             $(".pieceBlack").animate({left: rB +"px"});
                         }
                         if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "down"){
-                            var t = pieceOffset.top - 36;
-                            var tB =pieceBlackOffset.top - 368;
+                            var t = pieceOffset.top +166;
+                            var tB =pieceBlackOffset.top - 166;
                             $("."+availableCellsGeneral[i].cell).animate({top: t +"px"});
                             $(".pieceBlack").animate({top: tB +"px"});
                         }
                         if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "up"){
-                            var t = pieceOffset.top - 368;
-                            var tB =pieceBlackOffset.top - 38;
+                            var t = pieceOffset.top - 166;
+                            var tB =pieceBlackOffset.top + 166;
                             $("."+availableCellsGeneral[i].cell).animate({top: t +"px"});
                             $(".pieceBlack").animate({top: tB +"px"});
                         }
-                        $(".puzzle, .black").removeAttr( 'style' );
-                        $(".puzzle").css("border-style", "solid");
-                        $(".pieceBlack").css("background-image", "none");
+                        
                     }
                     
-                    
+                    $(".puzzle, .black").removeAttr( 'style' );
+                    $(".puzzle").css("border-style", "solid");
+                    $(".pieceBlack").css("background-image", "none");
                     
                     var pieceBlackPos = $(".pieceBlack")[0].classList[2];
                     var piecePos = $("."+piece)[0].classList[2];
