@@ -164,12 +164,16 @@
                 $(".puzzle").on("click", function () {
                     var cellSeleted = $(this);
                     //console.log("click en puzzle: " , cellSeleted);
+                    $(".puzzle, .black").removeAttr( 'style' );
+                        $(".puzzle").css("border-style", "solid");
+                        $(".pieceBlack").css("background-image", "none");
                     if (cellSeleted.hasClass("availableCell") && !gameWinFlag) {
                         //console.log("esta disponible para mover");                       
                         addMovementClass(availableCellsGeneral);
                         var cellSelectedClassPiece = cellSeleted[0].classList[1];
                         var classPosToRemove = cellSeleted[0].classList[2];
                         //console.log("cell selected: "+ cellSelectedClassPiece);
+                        
                         moveCellToBlack(cellSelectedClassPiece, classPosToRemove);
                         //for(var i=0; i<)
                         otherTurn();
@@ -205,11 +209,26 @@
                         $("#startGame").prop("disabled",false);
                         
                         gameWinFlag = true;
-                        $(".puzzle").css("border-style", "none");
-                        $("#wonMessage").css("display", "block");
-                        $("#game").addClass("animated shake");
                         $(".puzzle").removeClass("won");
+                        $(".puzzle, .black").removeAttr( 'style' );
+                        winAction(gameWinFlag);
+//                        $(".puzzle").css("border-style", "none");
+//                        $("#wonMessage").css("display", "block");
+//                        $("#game").addClass("animated shake");
+//                        $(".puzzle").removeClass("won");
+//                        $(".puzzle, .black").removeAttr( 'style' );
+                    }
+                }
+                
+                function winAction(flag){
+                    if(flag){
+                        //$(".puzzle").css("border-style", "none");
+                        resetPositions();
+                        $("#wonMessage").css("display", "block");
                         
+                        $("#game").addClass("animated shake");
+//                        $(".puzzle").removeClass("won");
+//                        $(".puzzle, .black").removeAttr( 'style' );
                     }
                 }
                 
@@ -261,10 +280,13 @@
                         }
                         if(availableCellsGeneral[i].cell=== piecePosition && availableCellsGeneral[i].moves === "up"){
                             var t = pieceOffset.top - 368;
-                            var tB =pieceBlackOffset.top - 36;
+                            var tB =pieceBlackOffset.top - 38;
                             $("."+availableCellsGeneral[i].cell).animate({top: t +"px"});
                             $(".pieceBlack").animate({top: tB +"px"});
                         }
+                        $(".puzzle, .black").removeAttr( 'style' );
+                        $(".puzzle").css("border-style", "solid");
+                        $(".pieceBlack").css("background-image", "none");
                     }
                     
                     
@@ -275,7 +297,6 @@
                     $("."+piece).removeClass(piecePos).addClass(pieceBlackPos); 
                     //$("."+piece).removeClass(piecePos).addClass(pieceBlackPos);
                     //console.log( $(".pieceBlack")[0]);
-                   
                 }
                 
                 function addMovementClass(cells){
