@@ -1,6 +1,7 @@
 body{
     padding-top: 100px;
-    background-color: grey;
+    background-color: #473938;
+     color: #dcdace;
 }
 
 #content{
@@ -20,7 +21,7 @@ footer a{
 }
 
 
-#monkTitle{
+#monkTitle{  
     font-size:50px;
     font-weight: bold;
 }
@@ -43,14 +44,14 @@ footer a{
 }
 
 #game{
-    padding: 100px;
+    padding: 100px 200px 100px 254px;
     position: relative;
 }
 
 
 .pieceBlack{
     background-image:url(monks.jpg);
-    background-color: black;
+    background-color: #2d2b2b;
     background-position:-332px -332px
 }
 
@@ -152,4 +153,11 @@ footer a{
 
 .won{
     border-color: red;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #game{
+        padding: 100px;
+    }
 }
