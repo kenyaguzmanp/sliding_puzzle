@@ -65,7 +65,7 @@
                 
                 $("#resetGame").prop("disabled",true);
                 $("#wonMessage").css("display", "none");
-
+                
                 $("#startGame").on("click", function(){
                     console.log("starting game...");
                     $(this).prop("disabled",true);
@@ -74,8 +74,10 @@
                     $("#game").removeClass("animated shake");
                     gameWinFlag = false;
                     $(".puzzle").css("border-style", "solid");
-                    $(".pieceBlack").css("background-image", "none"); 
-                    //resetGame();
+                    $(".pieceBlack").css("background-image", "none");
+                    resetPositions();
+                    resetGame();
+                    
                     randomizeCells();
                     otherTurn();
                     initGame();
@@ -83,23 +85,68 @@
                 
                 $("#resetGame").on("click", function(){
                     console.log("reseting game...");
+                    
                     $(".puzzle").css("border-style", "solid");
                     $(".pieceBlack").css("background-image", "none");
                     $("#game").removeClass("animated shake");
-                    resetGame();
-                    randomizeCells();
+                    resetPositions();
+                    resetGame();                   
+                    randomizeCells();                   
                     otherTurn();
                     initGame();
                 });
+                
+                
+                
+                function resetPositions(){
+                    console.log("en reset positions");
+                    var vect =["0px","0px","166px","332px"];
+                    
+                    $(".puzzle").removeClass("availableCell");
+                    $(".black").removeClass($(".black")[0].classList[2]);
+                    
+                    for(var i=0; i<9; i++){
+                        $(".piece"+i).removeClass($(".piece"+i)[0].classList[2]);
+                        $(".piece"+i).removeAttr( 'style' );
+                    }
+                    $(".black").removeAttr( 'style' );
+                    $(".black").removeClass("pos-3-3");
+                    
+                   for(var i=1; i<=3; i++){
+                        for(var j=1; j<=3; j++){
+                            console.log($(".pos-" + i + "-" + j));                           
+                            console.log("top: " + vect[i] + "left: " + vect[j]);
+                            $(".pos-" + i + "-" + j).css({      
+                                'top' : vect[i],
+                                'left' : vect[j]
+                            });
+                        }
+                    }
+                }
                              
                 function resetGame(){
                     console.log("reseting game");
                     gameWinFlag = false;
+                   
                     $("#game").removeClass(".animated .shake");
-                    $(".pieceBlack").removeClass($(".pieceBlack")[0].classList[2]).addClass("pos-3-3");
+                    
+                    $(".piece0").addClass("pos-1-1");
+                    $(".piece1").addClass("pos-1-2");
+                    $(".piece2").addClass("pos-1-3");
+                    $(".piece3").addClass("pos-2-1");
+                    $(".piece4").addClass("pos-2-2");
+                    $(".piece5").addClass("pos-2-3");
+                    $(".piece6").addClass("pos-3-1");
+                    $(".piece7").addClass("pos-3-2");
+                    $(".piece8").addClass("pos-3-3");
+                    
                     for(var i=0; i< 9; i++){
+                        $(".piece"+i).removeClass("pos-3-3");
                         $(".piece"+i).removeClass("won");
                     }
+                    $(".pieceBlack").addClass("pos-3-3");
+                    $(".pieceBlack").css("background-image", "none");
+                    $(".puzzle").css("border-style", "solid");
                 }
                 
                 function initGame(){
@@ -161,7 +208,8 @@
                         $(".puzzle").css("border-style", "none");
                         $("#wonMessage").css("display", "block");
                         $("#game").addClass("animated shake");
-                        resetGame();
+                        $(".puzzle").removeClass("won");
+                        
                     }
                 }
                 

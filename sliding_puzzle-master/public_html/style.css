@@ -8,8 +8,8 @@
 }
 
 #allGameWrapp{
-    background-image:url(monks.jpg);
-    background-color: red;
+/*    background-image:url(monks.jpg);
+    background-color: red;*/
     position: relative;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .piece8{
-    display: none;
+   display: none;
    background-position:-332px -332px
 }
 
