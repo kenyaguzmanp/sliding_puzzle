@@ -1,10 +1,41 @@
+body{
+    padding-top: 100px;
+    background-color: grey;
+}
+
+#content{
+    height: 850px;
+}
+
+footer{
+    text-align: center;
+}
+
+footer a{
+    color: white;
+}
+
+.mediaMonkTexts{
+    padding-bottom: 25px;
+}
+
+
+#monkTitle{
+    font-size:50px;
+    font-weight: bold;
+}
+
+
 .puzzle, .black {
    background-image:url(monks.jpg);
    width:166px;
    height:166px;
-   /*border-style: solid;*/
    float: left;
    display: inline-block;
+}
+
+.mediaMonkWrapp{
+    text-align: center;
 }
 
 #allGameWrapp{

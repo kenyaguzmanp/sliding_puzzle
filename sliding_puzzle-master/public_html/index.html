@@ -13,11 +13,16 @@
 
     </head>
     <body>
-        <div class="container-fluid">
-            <h1 class="animated bounceInDown">Media Monks</h1>
-            <p id="wonMessage">You won!</p>
-            <button type="button" id="startGame" class="btn btn-primary">Start Game!</button>
-            <button type="button" id="resetGame" class="btn btn-primary">Reset</button>
+        <div id="content" class="container-fluid">
+            <div class="container center-block mediaMonkWrapp">
+                <div class="mediaMonkTexts">
+                    <h1 id="monkTitle" class="animated bounceInDown">Sliding Puzzle</h1>
+                    <h2 id="wonMessage" class="animated zoomIn">You won!</h2>
+                </div>              
+                <button type="button" id="startGame" class="btn btn-primary">Start Game!</button>
+                <button type="button" id="resetGame" class="btn btn-primary">Reset</button>    
+            </div>
+            
             <div id="game" class="container center-block">        
                 <div id="allGameWrapp">
                     <div class="row">
@@ -40,8 +45,11 @@
                     </div>
                 </div>
             </div> 
-<!--            <img src="monks.jpg" id="monk" alt="fullImage" style="float: right">-->
+            
         </div>
+        <footer>
+            <p>Coded by <a href="https://github.com/kenyaguzmanp" target="_blank">Kenya Guzman</a>
+        </footer>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
